@@ -10,7 +10,7 @@ public class SayHello extends Object{
         this.num = num;
     }
 
-    public void sayHello(){
+    public void sayHelloToPlayer(Player p){
         for (int times = 0;times<num;times++) {
             Bukkit.getLogger().info("Hello");
         }

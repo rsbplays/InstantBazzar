@@ -9,7 +9,7 @@ public class BasicEvent implements Listener {
 
     public void onJoin(PlayerJoinEvent event){
 
-        public void sayHelloToPlayer(Player p){
+        public void sayHello(){
             for (int times = 0;times<num;times++){
                 Bukkit.getLogger().info("Hello");
             }
