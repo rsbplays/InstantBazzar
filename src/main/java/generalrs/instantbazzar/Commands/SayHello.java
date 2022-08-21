@@ -1,6 +1,7 @@
 package generalrs.instantbazzar.Commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class SayHello extends Object{
     public int num = 1;
@@ -12,6 +13,12 @@ public class SayHello extends Object{
 
     public void sayHelloToPlayer(Player p){
         for (int times = 0;times<num;times++) {
+
+            Bukkit.getLogger().info("Hello");
+        }
+    }
+    public void sayHello(){
+        for (int times = 0;times<num;times++){
             Bukkit.getLogger().info("Hello");
         }
     }
