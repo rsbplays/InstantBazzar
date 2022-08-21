@@ -7,7 +7,7 @@ public final class InstantBazzar extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        System.out.println("test 2");
+        
     }
 
     @Override
