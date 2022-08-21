@@ -13,8 +13,7 @@ public class SayHello extends Object{
 
     public void sayHelloToPlayer(Player p){
         for (int times = 0;times<num;times++) {
-
-            Bukkit.getLogger().info("Hello");
+            p.sendMessage("Hello");
         }
     }
     public void sayHello(){
