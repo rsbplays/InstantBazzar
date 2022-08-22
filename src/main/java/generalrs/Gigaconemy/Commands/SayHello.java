@@ -1,4 +1,4 @@
-package generalrs.instantbazzar.Commands;
+package generalrs.Gigaconemy.Commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
