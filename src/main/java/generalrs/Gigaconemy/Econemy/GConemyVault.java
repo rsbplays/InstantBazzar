@@ -6,7 +6,7 @@ import org.bukkit.OfflinePlayer;
 
 import java.util.List;
 
-public class GConemy implements Economy {
+public class GConemyVault implements Economy {
     @Override
     public boolean isEnabled() {
         return true;
