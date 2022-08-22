@@ -1,7 +1,9 @@
-package generalrs.Gigaconemy.Econemy;
+package generalrs.Gigaconomy.Economy;
 
+import generalrs.Gigaconomy.Gigaconomy;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.List;
@@ -64,46 +66,58 @@ public class GConemyVault implements Economy {
 
     @Override
     public double getBalance(String playerName) {
+        if (Gigaconomy.dataHandler.getPlayerAccounts(Bukkit.getOfflinePlayer(playerName))!=null){
+            return Gigaconomy.dataHandler.getPlayerAccounts(Bukkit.getOfflinePlayer(playerName)).get(0).getAmount();
+
+        }
         return 0;
     }
 
     @Override
     public double getBalance(OfflinePlayer player) {
+        if (Gigaconomy.dataHandler.playerHasAccount(player)){
+            return Gigaconomy.dataHandler.getPlayerAccounts(player).get(0).getAmount();
+        }
         return 0;
     }
 
     @Override
     public double getBalance(String playerName, String world) {
-        return 0;
+        return getBalance(playerName);
     }
 
     @Override
     public double getBalance(OfflinePlayer player, String world) {
-        return 0;
+        return getBalance(player);
     }
 
     @Override
     public boolean has(String playerName, double amount) {
+        if (getBalance(playerName)>=amount){
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
+        if (getBalance(player)>=amount) return true;
         return false;
     }
 
     @Override
     public boolean has(String playerName, String worldName, double amount) {
-        return false;
+        return has(playerName,amount);
     }
 
     @Override
     public boolean has(OfflinePlayer player, String worldName, double amount) {
-        return false;
+       return  has(player,amount);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
+       //todo complete
         return null;
     }
 

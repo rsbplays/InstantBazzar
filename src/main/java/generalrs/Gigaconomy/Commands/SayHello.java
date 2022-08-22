@@ -1,9 +1,12 @@
-package generalrs.Gigaconemy.Commands;
+package generalrs.Gigaconomy.Commands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SayHello extends Object{
+public class SayHello implements CommandExecutor {
     public int num = 1;
     static float float1=0.000005F;
 
@@ -22,4 +25,14 @@ public class SayHello extends Object{
         }
     }
 
+// /say
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(args.length>0) {
+            sender.sendMessage(args[0]);
+        }
+        return false;
+
+    }
 }
+

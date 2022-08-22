@@ -1,24 +1,46 @@
-package generalrs.Gigaconemy;
+package generalrs.Gigaconomy;
 
-import generalrs.Gigaconemy.Commands.SayHello;
-import generalrs.Gigaconemy.Econemy.GConemyVault;
+import generalrs.Gigaconomy.Commands.SayHello;
+
+import generalrs.Gigaconomy.Commands.TransferCmd;
+import generalrs.Gigaconomy.Data.PersistantData;
+import generalrs.Gigaconomy.Data.YamlDataSaver;
+import generalrs.Gigaconomy.Economy.GConemyVault;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Gigaconemy extends JavaPlugin {
+import java.io.IOException;
+
+public final class Gigaconomy extends JavaPlugin {
     public static SayHello sayHello = new SayHello(500);
-    public static Gigaconemy instance;
+    public static Gigaconomy instance;
     public static GConemyVault gConemy;
+    public static PersistantData dataHandler;
+
+    static {
+        try {
+            dataHandler = new YamlDataSaver();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
+
     public void onEnable() {
+        saveDefaultConfig();
+
         gConemy = new GConemyVault();
         setupEconomy();
         instance = this;
-        // Plugin startup logic
+        // plugin command registries
+        getCommand("say").setExecutor(sayHello);
+        //Todo steven needs to finish
+        this.getCommand("transfer").setExecutor(new TransferCmd());
 
+        //Event registries
         getServer().getPluginManager().registerEvents(new BasicEvent(),this);
     }
 
@@ -38,4 +60,6 @@ public final class Gigaconemy extends JavaPlugin {
 
         return false;
     }
+
+
 }

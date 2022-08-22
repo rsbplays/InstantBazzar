@@ -1,6 +1,12 @@
-name: Gigaconemy
+name: Gigaconomy
 version: '${project.version}'
-main: generalrs.GigaConemy.Gigaconemy
+main: generalrs.Gigaconemy.Gigaconemy
 api-version: 1.19
 authors: [ Generalrs, AsianousRice ]
 description: A plugin th at allows the creation of a bazzar
+
+commands:
+  tranfer:
+    description: transfers money to someone elses bank account
+  say:
+    description: echos what you say
