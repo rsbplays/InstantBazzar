@@ -37,8 +37,7 @@ public final class Gigaconomy extends JavaPlugin {
         instance = this;
         // plugin command registries
         getCommand("say").setExecutor(sayHello);
-        //Todo steven needs to finish
-
+        //Transfer Command
         this.getCommand("transfer").setExecutor(new TransferCmd());
 
         //Event registries
