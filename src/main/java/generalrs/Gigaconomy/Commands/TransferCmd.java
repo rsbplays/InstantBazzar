@@ -12,7 +12,7 @@ public class TransferCmd implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            public static TransferCmd transferCmd = new TransferCmd()
+            public static TransferCmd transferCmd = new TransferCmd();
             sender.sendMessage( " Transfer of £ " +amount+ " was completed ");
         }
         return true;
