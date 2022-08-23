@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -42,10 +43,21 @@ public class YamlDataSaver implements PersistantData{
 
     }
 
+    private void loadPlayerAccount(OfflinePlayer offlinePlayer){
 
+    }
     @Override
     public BankInfo getPlayerAccounts(OfflinePlayer player) {
-        return null;
+        //todo FIX THIS SHITTY CODE
+        if (bankInfoCache.containsKey(player.getUniqueId())){
+            return bankInfoCache.get(player.getUniqueId());
+        }else{
+            YamlConfiguration configuration = YamlConfiguration.loadConfiguration(getDataFileForPlayer(player.getUniqueId()));
+
+            return loadAccountFromSec(configuration.getConfigurationSection("accounts"),player);
+        }
+
+
     }
 
     @Override
@@ -57,9 +69,18 @@ public class YamlDataSaver implements PersistantData{
         //Create the bank classes
         BankAccount pBankAccount = new BankAccount(player);
         BankInfo pBankInfo = new BankInfo(player,pBankAccount);
+        pBankAccount.setAmount(1000);
 
+        savePlayerBankInfo(playerDataFile,pBankInfo);
+        try{
+            playerDataFile.save(newPlayerFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        bankInfoCache.put(player.getUniqueId(),pBankInfo);
+        return pBankInfo;
 
-    };
+    }
 
     private File getFolderForPlayer(UUID uuid){
         String chars = uuid.toString().substring(0,2);
@@ -79,8 +100,25 @@ public class YamlDataSaver implements PersistantData{
         return playerDataFile;
 
     }
-    private ConfigurationSection savePlayerBankInfo(ConfigurationSection configurationSection, BankInfo bankInfo){
+    private ConfigurationSection savePlayerBankInfo(FileConfiguration config, BankInfo bankInfo){
+        ConfigurationSection accountssec = config.createSection("accounts");
+        for (BankAccount bankAccount:bankInfo.getAccounts()){
+            ConfigurationSection accsec = accountssec.createSection(bankAccount.getName());
+            accsec.set("amount",bankAccount.getAmount());
+        }
+        return config;
+    }
+    private BankInfo loadAccountFromSec(ConfigurationSection section,OfflinePlayer offlinePlayer){
+        ArrayList<BankAccount> bankAccounts = new ArrayList<>();
+        for (String key:section.getKeys(false)){
+            ConfigurationSection bc = section.getConfigurationSection(key);
+            BankAccount ba = new BankAccount(key,offlinePlayer);
+            ba.setAmount(bc.getDouble("amount"));
+            bankAccounts.add(ba);
 
+        }
+        BankInfo bankInfo = new BankInfo(bankAccounts,offlinePlayer);
+        return bankInfo;
     }
 
 }

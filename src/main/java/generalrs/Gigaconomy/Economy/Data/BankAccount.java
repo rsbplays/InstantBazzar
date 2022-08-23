@@ -26,6 +26,8 @@ public class BankAccount {
             if (owner.isOnline()){
                 owner.getPlayer().sendMessage("You have successfully transferred £"+Amount+" to "+recipient.getName());
             }
+        }else{
+            owner.getPlayer().sendMessage("NOT ENOUGH MONEY BOZO");
         }
     }
 

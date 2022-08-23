@@ -15,6 +15,9 @@ public class TransferCmd implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
+            if (args.length<2){
+                sender.sendMessage("TYPE MORE YOU BUFFOON \n"+usage);
+            }
             Player player = (Player) sender;
             BankAccount bankAccount = Gigaconomy.dataHandler.getPlayerAccounts(player).getAccount(0);
             Player recipient = Bukkit.getPlayer(args[0]);
@@ -31,8 +34,6 @@ public class TransferCmd implements CommandExecutor {
                 return false;
             }
             bankAccount.transferMoney(amount,Bukkit.getOfflinePlayer(recipient.getUniqueId()));
-
-            sender.sendMessage( " Transfer of £ " +amount+ " was completed ");
         }
         return true;
     }

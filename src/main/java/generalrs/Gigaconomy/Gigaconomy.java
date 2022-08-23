@@ -1,11 +1,13 @@
 package generalrs.Gigaconomy;
 
+import generalrs.Gigaconomy.Commands.BalenceCmd;
 import generalrs.Gigaconomy.Commands.SayHello;
 
 import generalrs.Gigaconomy.Commands.TransferCmd;
 import generalrs.Gigaconomy.Data.PersistantData;
 import generalrs.Gigaconomy.Data.YamlDataSaver;
 import generalrs.Gigaconomy.Economy.GConemyVault;
+import generalrs.Gigaconomy.Economy.PlayerEvents;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
@@ -37,11 +39,13 @@ public final class Gigaconomy extends JavaPlugin {
         instance = this;
         // plugin command registries
         getCommand("say").setExecutor(sayHello);
+        getCommand("bal").setExecutor(new BalenceCmd());
         //Transfer Command
         this.getCommand("transfer").setExecutor(new TransferCmd());
 
         //Event registries
         getServer().getPluginManager().registerEvents(new BasicEvent(),this);
+        getServer().getPluginManager().registerEvents(new PlayerEvents(),this);
     }
 
     @Override
