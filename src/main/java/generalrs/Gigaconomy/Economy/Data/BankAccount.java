@@ -5,7 +5,18 @@ import org.bukkit.OfflinePlayer;
 
 public class BankAccount {
     private double amount;
+    private String name;
     private OfflinePlayer owner;
+
+    public BankAccount(OfflinePlayer owner) {
+        this("CheckAccount",owner);
+    }
+
+    public BankAccount(String name, OfflinePlayer owner) {
+        this.name = name;
+        this.owner = owner;
+        amount = 0;
+    }
 
     public void transferMoney(double Amount, OfflinePlayer recipient){
         BankAccount bankAccount = Gigaconomy.dataHandler.getPlayerAccounts(recipient).getAccount(0);
@@ -24,5 +35,13 @@ public class BankAccount {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public OfflinePlayer getOwner() {
+        return owner;
     }
 }

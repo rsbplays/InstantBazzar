@@ -67,7 +67,7 @@ public class GConemyVault implements Economy {
     @Override
     public double getBalance(String playerName) {
         if (Gigaconomy.dataHandler.getPlayerAccounts(Bukkit.getOfflinePlayer(playerName))!=null){
-            return Gigaconomy.dataHandler.getPlayerAccounts(Bukkit.getOfflinePlayer(playerName)).get(0).getAmount();
+            return Gigaconomy.dataHandler.getPlayerAccounts(Bukkit.getOfflinePlayer(playerName)).getAccount(0).getAmount();
 
         }
         return 0;
@@ -76,7 +76,7 @@ public class GConemyVault implements Economy {
     @Override
     public double getBalance(OfflinePlayer player) {
         if (Gigaconomy.dataHandler.playerHasAccount(player)){
-            return Gigaconomy.dataHandler.getPlayerAccounts(player).get(0).getAmount();
+            return Gigaconomy.dataHandler.getPlayerAccounts(player).getAccount(0).getAmount();
         }
         return 0;
     }
