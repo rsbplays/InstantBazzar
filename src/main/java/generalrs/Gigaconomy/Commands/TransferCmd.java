@@ -1,5 +1,6 @@
 package generalrs.Gigaconomy.Commands;
 
+import generalrs.Gigaconomy.Economy.Data.BankAccount;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +12,8 @@ public class TransferCmd implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-                sender.sendMessage( " Transfer of £ " +amount+ " was completed ");
+            public static TransferCmd transferCmd = new TransferCmd()
+            sender.sendMessage( " Transfer of £ " +amount+ " was completed ");
         }
         return true;
     }
