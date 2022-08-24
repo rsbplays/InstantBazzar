@@ -1,2 +1,6 @@
 welcome.message: "&3Welcome to the server"
 command.balance.description: "Gets your current balance"
+command.transfer.description: "transfers money out of your account and into another"
+command.transferhelp.description: "/transfer [player] [amount]\nThis will send money from your main bank account to another player's"
+command.accountcreation.description: "Your Account has been created"
+command.joinmessage.description: "Welcome to the server"

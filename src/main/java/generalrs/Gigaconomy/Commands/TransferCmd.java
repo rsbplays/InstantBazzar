@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class TransferCmd implements CmdExecutor {
-    public String usage= "/transfer [player] [amount]\nThis will send money from your main bank account to another player's";
+    public String usage= command.transferhelp.description;
 
     @Override
     public boolean onCommand(String label,CommandSender sender,  String[] args) {

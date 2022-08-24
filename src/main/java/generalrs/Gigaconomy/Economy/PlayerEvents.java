@@ -14,9 +14,9 @@ public class PlayerEvents implements Listener {
         if (Gigaconomy.dataHandler.playerHasAccount(e.getPlayer()))
         {
             Gigaconomy.dataHandler.createAccountForPlayer(e.getPlayer());
-            e.getPlayer().sendMessage("Your Account has been created");
+            e.getPlayer().sendMessage(command.accountcreation.description);
         }else{
-            e.setJoinMessage( e.getPlayer().getDisplayName()+"Welcome to the server");
+            e.setJoinMessage( e.getPlayer().getDisplayName()+command.joinmessage.description);
 
         }
 
