@@ -1,6 +1,7 @@
 package generalrs.Gigaconomy.Economy.Data;
 
 import generalrs.Gigaconomy.Gigaconomy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 
 public class BankAccount {
@@ -18,17 +19,16 @@ public class BankAccount {
         amount = 0;
     }
 
-    public void transferMoney(double Amount, OfflinePlayer recipient){
+    public EconomyResponse transferMoney(double Amount, OfflinePlayer recipient){
         BankAccount bankAccount = Gigaconomy.dataHandler.getPlayerAccounts(recipient).getAccount(0);
         if (Amount>0&&amount>Amount) {
             bankAccount.setAmount(bankAccount.getAmount()+Amount);
             amount-=Amount;
-            if (owner.isOnline()){
-                owner.getPlayer().sendMessage("You have successfully transferred £"+Amount+" to "+recipient.getName());
-            }
+            return new EconomyResponse(amount,bankAccount.amount, EconomyResponse.ResponseType.SUCCESS,null);
         }else{
-            owner.getPlayer().sendMessage("NOT ENOUGH MONEY BOZO");
+           return new EconomyResponse(0, bankAccount.amount, EconomyResponse.ResponseType.FAILURE,null);
         }
+
     }
 
     public double getAmount() {

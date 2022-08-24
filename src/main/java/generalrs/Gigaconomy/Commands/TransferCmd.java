@@ -2,18 +2,21 @@ package generalrs.Gigaconomy.Commands;
 
 import generalrs.Gigaconomy.Economy.Data.BankAccount;
 import generalrs.Gigaconomy.Gigaconomy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class TransferCmd implements CommandExecutor {
+public class TransferCmd implements CmdExecutor {
     public String usage= "/transfer [player] [amount]\nThis will send money from your main bank account to another player's";
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(String label,CommandSender sender,  String[] args) {
         if (sender instanceof Player) {
             if (args.length<2){
                 sender.sendMessage("TYPE MORE YOU BUFFOON \n"+usage);
@@ -33,7 +36,13 @@ public class TransferCmd implements CommandExecutor {
                 sender.sendMessage("Not Valid number you absoulute moron\n"+usage);
                 return false;
             }
-            bankAccount.transferMoney(amount,Bukkit.getOfflinePlayer(recipient.getUniqueId()));
+            EconomyResponse response = bankAccount.transferMoney(amount,Bukkit.getOfflinePlayer(recipient.getUniqueId()));
+            if(response.transactionSuccess()){
+                recipient.sendMessage(ChatColor.translateAlternateColorCodes('&',"&2You have recieved $"+amount+" from "+((Player) sender).getDisplayName()));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&2You have transferred $"+amount+" to "+recipient.getDisplayName()));
+            }else {
+                sender.sendMessage(ChatColor.RED+"You do not have enough money for this transaction, You are missing "+ChatColor.GREEN+"$"+amount);
+            }
         }
         return true;
     }

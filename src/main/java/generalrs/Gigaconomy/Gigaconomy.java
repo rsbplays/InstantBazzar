@@ -1,7 +1,6 @@
 package generalrs.Gigaconomy;
 
 import generalrs.Gigaconomy.Commands.BalenceCmd;
-import generalrs.Gigaconomy.Commands.SayHello;
 
 import generalrs.Gigaconomy.Commands.TransferCmd;
 import generalrs.Gigaconomy.Data.PersistantData;
