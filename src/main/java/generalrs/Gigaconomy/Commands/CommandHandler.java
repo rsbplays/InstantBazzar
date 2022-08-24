@@ -16,7 +16,7 @@ public class CommandHandler {
     CommandMap bukkitCommandMap;
     HashMap<String, Command> commandMap = new HashMap<>();
 
-    public CommandHandler(HashMap<String, Command> commandMap) {
+    public CommandHandler() {
         //Gets the bukkit Command Map feild
         final Field bukkitCommandMapF;
         try {
@@ -44,8 +44,10 @@ public class CommandHandler {
         };
         command.setUsage(usageMessage);
         bukkitCommandMap.register(name,"Gigaconomy",command);
+        commandMap.put(name,command);
         return command;
     }
+
     public void addAliases(Command command,String... alias){
         ArrayList<String> list = (ArrayList<String>) command.getAliases();
         for (String ialias:alias){

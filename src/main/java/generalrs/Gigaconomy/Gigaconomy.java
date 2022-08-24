@@ -2,6 +2,7 @@ package generalrs.Gigaconomy;
 
 import generalrs.Gigaconomy.Commands.BalenceCmd;
 
+import generalrs.Gigaconomy.Commands.CommandHandler;
 import generalrs.Gigaconomy.Commands.TransferCmd;
 import generalrs.Gigaconomy.Data.PersistantData;
 import generalrs.Gigaconomy.Data.YamlDataSaver;
@@ -11,14 +12,17 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.units.qual.C;
 
+import java.io.File;
 import java.io.IOException;
 
 public final class Gigaconomy extends JavaPlugin {
-    public static SayHello sayHello = new SayHello(500);
+
     public static Gigaconomy instance;
     public static GConemyVault gConemy;
     public static PersistantData dataHandler;
+    public static CommandHandler commandHandler;
 
     static {
         try {
@@ -36,11 +40,12 @@ public final class Gigaconomy extends JavaPlugin {
         gConemy = new GConemyVault();
         setupEconomy();
         instance = this;
+        //Setup the custom command handler
+        commandHandler = new CommandHandler();
+
         // plugin command registries
-        getCommand("say").setExecutor(sayHello);
-        getCommand("bal").setExecutor(new BalenceCmd());
-        //Transfer Command
-        this.getCommand("transfer").setExecutor(new TransferCmd());
+        commandHandler.registerCommand("balance","Gets your current balence",new BalenceCmd());
+        commandHandler.registerCommand("transfer","transfers money out of your account and into another",new TransferCmd());
 
         //Event registries
         getServer().getPluginManager().registerEvents(new BasicEvent(),this);
@@ -60,9 +65,9 @@ public final class Gigaconomy extends JavaPlugin {
         }
         getServer().getServicesManager().register(Economy.class, gConemy,this, ServicePriority.Highest);
 
-
+        
         return false;
     }
-
+    
 
 }
