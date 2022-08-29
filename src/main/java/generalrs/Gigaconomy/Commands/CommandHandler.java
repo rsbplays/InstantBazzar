@@ -7,7 +7,7 @@ import org.bukkit.command.*;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class CommandHandler implements CmdExecutor, TabCompleter {
+public class CommandHandler implements CmdExecutor{
 
     CommandMap bukkitCommandMap;
     HashMap<String, Command> commandMap = new HashMap<>();
@@ -31,21 +31,17 @@ public class CommandHandler implements CmdExecutor, TabCompleter {
 
     }
     public void register(){
-        registerCommand("eco","The main eco",this);
+        registerCommand("eco","The main eco","",this);
 
        // commandMap.get("eco").setTabCompleter(this);
     }
 
-    public Command registerCommand(String name,String usageMessage, CmdExecutor executor){
-        Command command = new Command(name) {
-            @Override
-            public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-                return executor.onCommand(commandLabel,sender,args);
-            }
-        };
-        command.setUsage(usageMessage);
+    public Command registerCommand(String name,String usageMessage,String description, CmdExecutor executor){
+        GigaCommand command = new GigaCommand(name,description,usageMessage,new ArrayList<>());
         bukkitCommandMap.register(name,"Gigaconomy",command);
         commandMap.put(name,command);
+        command.setCommandExecutor(executor);
+
         return command;
     }
 
@@ -78,7 +74,7 @@ public class CommandHandler implements CmdExecutor, TabCompleter {
             cmd.append(" ").append(trueargs[b]);
         }
 
-        if (getCommandMap().containsKey(cmd.toString())){
+        if (getCommandMap().containsKey(args[0])){
             bukkitCommandMap.dispatch(sender, cmd.toString());
         }
         return false;
@@ -86,8 +82,7 @@ public class CommandHandler implements CmdExecutor, TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        System.out.println(args);
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
         if (args.length==1){
 
             ArrayList<String> list = new ArrayList<>();
@@ -98,7 +93,23 @@ public class CommandHandler implements CmdExecutor, TabCompleter {
             }
             Collections.sort(list);
             return list;
+        }else {
+            if (commandMap.containsKey(args[0])){
+                GigaCommand gigaCommand = (GigaCommand) commandMap.get(args[0]);
+                String[] SL = new String[args.length-1];
+                int i = 0;
+                for (String arg:args){
+                    if (i!=0){
+                        SL[i-1]=arg;
+                    }
+                    i++;
+                }
+                return gigaCommand.tabComplete(sender,args[0],SL);
+            }
+            return new ArrayList<>();
+
         }
-        return new ArrayList<String>();
     }
+
+
 }

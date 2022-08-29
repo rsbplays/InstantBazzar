@@ -8,8 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.server.TabCompleteEvent;
+
 
 public class PlayerEvents implements Listener {
     @EventHandler
@@ -18,14 +19,12 @@ public class PlayerEvents implements Listener {
         {
             Gigaconomy.dataHandler.createAccountForPlayer(e.getPlayer());
             e.getPlayer().sendMessage(Languages.getString("welcome.message"));
-            Bukkit.getLogger().info("Has joined");
         }
-        Bukkit.getLogger().info("Has joined1");
 
     }
 
     @EventHandler
-    public void onTabComplete(TabCompleteEvent e){
-        Bukkit.getLogger().info(e.getBuffer());
+    public void onTabComplete(PlayerChatTabCompleteEvent e){
+
     }
 }

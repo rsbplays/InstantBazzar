@@ -13,6 +13,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class TransferCmd implements CmdExecutor {
     public String usage = Languages.getString("command.transferhelp.usage");
     @Override
@@ -46,5 +50,19 @@ public class TransferCmd implements CmdExecutor {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
+        if (args.length==1){
+            ArrayList<String> players = new ArrayList<>();
+            for (Player player :Bukkit.getOnlinePlayers()) {
+                String playername = player.getName();
+                players.add(playername);
+            }
+            Collections.sort(players);
+            return players;
+        }
+        else return null;
     }
 }

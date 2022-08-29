@@ -46,8 +46,8 @@ public final class Gigaconomy extends JavaPlugin {
         commandHandler = new CommandHandler();
         commandHandler.register();
         // plugin command registries
-        commandHandler.registerCommand("balance",Languages.getString("command.balance.description"),new BalenceCmd());
-        commandHandler.registerCommand("transfer","transfers money out of your account and into another",new TransferCmd());
+        commandHandler.registerCommand("balance","",Languages.getString("command.balance.description"),new BalenceCmd());
+        commandHandler.registerCommand("transfer","",Languages.getString("command.transfer.description"),new TransferCmd());
 
         //Event registries
         getServer().getPluginManager().registerEvents(new BasicEvent(),this);

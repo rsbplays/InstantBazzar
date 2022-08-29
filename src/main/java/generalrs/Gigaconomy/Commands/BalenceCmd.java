@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class BalenceCmd implements CmdExecutor {
     @Override
     public boolean onCommand(String label,CommandSender sender,  String[] args) {
@@ -16,6 +18,11 @@ public class BalenceCmd implements CmdExecutor {
             sender.sendMessage(Languages.parsePlaceHolder(Languages.getString("command.balance.message"),"amount",String.valueOf(Gigaconomy.dataHandler.getPlayerAccounts((OfflinePlayer) sender).getAccount(0).getAmount())));
         }
         return false;
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
+        return null;
     }
 
 
