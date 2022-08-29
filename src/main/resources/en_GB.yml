@@ -1,6 +1,11 @@
+
 welcome.message: "&3Welcome to the server"
+
+command.balance.message: "&2You have $%amount%"
 command.balance.description: "Gets your current balance"
 command.transfer.description: "transfers money out of your account and into another"
-command.transferhelp.description: "/transfer [player] [amount]\nThis will send money from your main bank account to another player's"
-command.accountcreation.description: "Your Account has been created"
-command.joinmessage.description: "Welcome to the server"
+command.transferhelp.usage: "/transfer [player] [amount]\nThis will send money from your main bank account to another player's"
+command.transfer.noArgs: "&4not enough information\n"
+command.transfer.transferSuccess: "&2You have transferred &4%amount% &2to %playername%"
+command.transfer.recipientFailure: "&2You do not have enough money for this transaction, You are missing &4$%missingamount%"
+command.transfer.recipientSuccess: "&2You have recieved $%amount% from %playername%"

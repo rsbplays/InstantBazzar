@@ -1,6 +1,7 @@
 package generalrs.Gigaconomy.Commands;
 
 import generalrs.Gigaconomy.Economy.Data.BankAccount;
+import generalrs.Gigaconomy.Economy.Data.Languages;
 import generalrs.Gigaconomy.Gigaconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -13,13 +14,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class TransferCmd implements CmdExecutor {
-    public String usage= command.transferhelp.description;
-
+    public String usage = Languages.getString("command.transferhelp.usage");
     @Override
     public boolean onCommand(String label,CommandSender sender,  String[] args) {
         if (sender instanceof Player) {
             if (args.length<2){
-                sender.sendMessage("TYPE MORE YOU BUFFOON \n"+usage);
+                sender.sendMessage(Languages.getString("command.transfer.noArgs")+usage);
+                return false;
             }
             Player player = (Player) sender;
             BankAccount bankAccount = Gigaconomy.dataHandler.getPlayerAccounts(player).getAccount(0);
@@ -38,10 +39,10 @@ public class TransferCmd implements CmdExecutor {
             }
             EconomyResponse response = bankAccount.transferMoney(amount,Bukkit.getOfflinePlayer(recipient.getUniqueId()));
             if(response.transactionSuccess()){
-                recipient.sendMessage(ChatColor.translateAlternateColorCodes('&',"&2You have recieved $"+amount+" from "+((Player) sender).getDisplayName()));
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&2You have transferred $"+amount+" to "+recipient.getDisplayName()));
+                recipient.sendMessage(Languages.parsePlaceHolder(Languages.parsePlaceHolder(Languages.getString("command.transfer.recipientSuccess"),"amount",String.valueOf(amount)),"playername",player.getDisplayName()));
+                sender.sendMessage(Languages.parsePlaceHolder(Languages.parsePlaceHolder(Languages.getString("command.transfer.transferSuccess"),"amount",String.valueOf(amount)),"playername",recipient.getDisplayName()));
             }else {
-                sender.sendMessage(ChatColor.RED+"You do not have enough money for this transaction, You are missing "+ChatColor.GREEN+"$"+amount);
+                sender.sendMessage(Languages.parsePlaceHolder(Languages.getString("command.transfer.recipientFailure"),"missingamount", String.valueOf(amount-bankAccount.getAmount())));
             }
         }
         return true;

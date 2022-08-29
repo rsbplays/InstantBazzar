@@ -1,6 +1,8 @@
 package generalrs.Gigaconomy.Commands;
 
+import generalrs.Gigaconomy.Economy.Data.Languages;
 import generalrs.Gigaconomy.Gigaconomy;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,7 +13,7 @@ public class BalenceCmd implements CmdExecutor {
     @Override
     public boolean onCommand(String label,CommandSender sender,  String[] args) {
         if (sender instanceof Player){
-            sender.sendMessage(String.valueOf(Gigaconomy.dataHandler.getPlayerAccounts((OfflinePlayer) sender).getAccount(0).getAmount()));
+            sender.sendMessage(Languages.parsePlaceHolder(Languages.getString("command.balance.message"),"amount",String.valueOf(Gigaconomy.dataHandler.getPlayerAccounts((OfflinePlayer) sender).getAccount(0).getAmount())));
         }
         return false;
     }

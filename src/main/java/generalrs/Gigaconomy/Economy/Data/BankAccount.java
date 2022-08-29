@@ -2,6 +2,7 @@ package generalrs.Gigaconomy.Economy.Data;
 
 import generalrs.Gigaconomy.Gigaconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 public class BankAccount {
@@ -22,8 +23,11 @@ public class BankAccount {
     public EconomyResponse transferMoney(double Amount, OfflinePlayer recipient){
         BankAccount bankAccount = Gigaconomy.dataHandler.getPlayerAccounts(recipient).getAccount(0);
         if (Amount>0&&amount>Amount) {
+            Bukkit.getLogger().severe(recipient.getName());
             bankAccount.setAmount(bankAccount.getAmount()+Amount);
+            System.out.println(bankAccount.amount);
             amount-=Amount;
+            System.out.println(amount);
             return new EconomyResponse(amount,bankAccount.amount, EconomyResponse.ResponseType.SUCCESS,null);
         }else{
            return new EconomyResponse(0, bankAccount.amount, EconomyResponse.ResponseType.FAILURE,null);

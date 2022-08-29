@@ -6,6 +6,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class YamlDataSaver implements PersistantData{
+public class YamlDataSaver implements PersistantData, Listener {
     private HashMap<UUID, BankInfo> bankInfoCache = new HashMap<>();
     private File mainSaveFolder;
     private File playerDataFolder;
@@ -38,8 +41,27 @@ public class YamlDataSaver implements PersistantData{
         return false;
     }
 
-    @Override
-    public void savePlayerAccounts(OfflinePlayer offlinePlayer, BankInfo bankInfo) {
+    
+    public void modifyPlayerBankInfo(OfflinePlayer offlinePlayer, BankInfo bankInfo) {
+        FileConfiguration playerFile = YamlConfiguration.loadConfiguration(getDataFileForPlayer(offlinePlayer.getUniqueId()));
+        for(String key:playerFile.getConfigurationSection("accounts").getKeys(false)){
+            if (bankInfo.getAccounts().contains(key)){
+                for (BankAccount bankAccount:bankInfo.getAccounts()){
+                    if (bankAccount.getName().equals(key)){
+                        playerFile.set(key+".amount",bankAccount.getAmount());
+                        bankInfo.getAccounts().remove(bankAccount);
+                    }
+                }
+            }
+        }
+        for (BankAccount bankAccount:bankInfo.getAccounts()){
+            playerFile.set("accounts."+bankAccount.getName()+".amount",bankAccount.getAmount());
+        }
+        try {
+            playerFile.save(getDataFileForPlayer(offlinePlayer.getUniqueId()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -48,16 +70,14 @@ public class YamlDataSaver implements PersistantData{
     }
     @Override
     public BankInfo getPlayerAccounts(OfflinePlayer player) {
-        //todo FIX THIS SHITTY CODE
+        //todo STILL SHITTY CODE BUT NOT AS SHITTY
         if (bankInfoCache.containsKey(player.getUniqueId())){
             return bankInfoCache.get(player.getUniqueId());
         }else{
             YamlConfiguration configuration = YamlConfiguration.loadConfiguration(getDataFileForPlayer(player.getUniqueId()));
-
+            bankInfoCache.put(player.getUniqueId(),loadAccountFromSec(configuration.getConfigurationSection("accounts"),player));
             return loadAccountFromSec(configuration.getConfigurationSection("accounts"),player);
         }
-
-
     }
 
     @Override
@@ -119,6 +139,11 @@ public class YamlDataSaver implements PersistantData{
         }
         BankInfo bankInfo = new BankInfo(bankAccounts,offlinePlayer);
         return bankInfo;
+    }
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e){
+
+        bankInfoCache.remove(e.getPlayer().getUniqueId());
     }
 
 }

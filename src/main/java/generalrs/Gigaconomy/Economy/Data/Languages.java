@@ -1,18 +1,18 @@
 package generalrs.Gigaconomy.Economy.Data;
 
 import generalrs.Gigaconomy.Gigaconomy;
-import jdk.nashorn.internal.runtime.regexp.JoniRegExp;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 
 public class Languages {
-    private File customConfigFile;
-    private FileConfiguration customConfig;
+    private static FileConfiguration customConfig;
 
     public Languages() {
-        customConfigFile = new File(Gigaconomy.instance.getDataFolder(),"en_GB.yml");
+
+        File customConfigFile = new File(Gigaconomy.instance.getDataFolder(), "en_GB.yml");
         if(!customConfigFile.exists()){
             try {
                 customConfigFile.createNewFile();
@@ -36,7 +36,15 @@ public class Languages {
     }
 
 
-    public String getString(String id){
-        return customConfig.getString(id);
+    public static String getString(String id){
+        if (customConfig.getString(id)==null){
+            return "ALlAH HUMDUBALEH "+id+" is not set";
+        }
+        return ChatColor.translateAlternateColorCodes('&',customConfig.getString(id));
+
+    }
+    public static String parsePlaceHolder(String str,String placeholder,String value){
+        String ph = "%"+placeholder+"%";
+        return str.replace(ph,value);
     }
 }
